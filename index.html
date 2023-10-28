@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>API Fun!</title>
+        <meta name="author" content="Kevin Arellano Flores">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    <body>
+        <div id="data"></div>
+        <script language="javascript">
+            var ajaxRequest = new XMLHttpRequest();
+            ajaxRequest.onreadystatechange = function() {
+                if (ajaxRequest.readyState == 1) {
+                    console.log("Server connection established.");
+                } else if (ajaxRequest.readyState == 2) {
+                    console.log("Server received request.");
+                } else if (ajaxRequest.readyState == 3) {
+                    console.log("Processing request.");
+                } else if (ajaxRequest.readyState == 4) {
+                    console.log("Loading complete!");
+                    if (ajaxRequest.status == 200) {
+                        var json_str = ajaxRequest.responseText;
+                        var js_obj = JSON.parse(json_str);
+                        displayAPI(js_obj);
+                    } else {
+                        console.log("Status error: " + ajaxRequest.status);
+                    }
+                } else {
+                    console.log("Ignored readyState: " + ajaxRequest.readyState);
+                }
+
+                
+            }
+            ajaxRequest.open("GET", "https://api.artic.edu/api/v1/artworks/search?q=cats", true);
+            ajaxRequest.send();
+
+            function displayAPI(js_obj) {
+                var div_display = document.getElementById("data")
+                var page_title = document.createElement("p");
+                page_title.innerHTML = "Beautiful, Blurry Pictures";
+                var u_list = document.createElement("ul");
+                for (var i = 0; i < js_obj["data"].length; i++) {
+                    var list_item = document.createElement("li");
+                    var title = "<b> " + JSON.stringify(js_obj["data"][i]["title"]) + "</b><br>";
+                    title.style = "font-weight: bold";
+                    var id =  "ID: " + JSON.stringify(js_obj["data"][i]["id"]) + "<br>";
+                    var image = document.createElement("img");
+                    var time = "Time: " + JSON.stringify(js_obj["data"][i]["timestamp"]) + "<br>";
+                    image.src = js_obj["data"][i]["thumbnail"]["lqip"];
+                    var width = "Width: " + JSON.stringify(js_obj["data"][i]["thumbnail"]["width"]) + "<br>";
+                    var height = "Height: " + JSON.stringify(js_obj["data"][i]["thumbnail"]["height"]) + "<br>";
+                    var score = "Score: " + JSON.stringify(js_obj["data"][i]["_score"]) + "<br>";
+                
+                    list_item.innerHTML = title + id + width + height + time + score;
+                    list_item.appendChild(image);
+                    u_list.appendChild(list_item);
+                }
+                div_display.appendChild(page_title);
+                div_display.appendChild(u_list);
+            }
+        </script>
+    </body>
+</html>

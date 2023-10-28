@@ -1,0 +1,38 @@
+body {
+    background-color: #457185;
+}
+#data p {
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+    flex: column;
+    color: white; 
+    font-style: italic;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+#data ul {
+    margin-right: 5%;
+    margin-left: 5%;
+    text-align: center;
+}
+#data ul li {
+    display: table;
+    border-radius: 10px;
+    border: 5px solid #a1bfc7;
+    font-size: 20px;
+    background-color: white;
+    overflow-wrap: normal;
+    list-style-type: none;
+    float: left;
+    width: 39%;
+    margin: 2%;
+    padding: 3%;
+    float: left;
+}
+#data ul li img {
+    width: 300px;
+    height: 300px;
+    border: 5px solid #457185;
+}
